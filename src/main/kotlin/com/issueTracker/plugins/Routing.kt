@@ -1,4 +1,4 @@
-package example.com.plugins
+package com.issueTracker.plugins
 
 import io.ktor.server.application.*
 import io.ktor.server.response.*

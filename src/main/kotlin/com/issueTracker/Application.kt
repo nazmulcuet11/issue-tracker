@@ -1,7 +1,7 @@
-package example.com
+package com.issueTracker
 
-import example.com.plugins.*
 import io.ktor.server.application.*
+import com.issueTracker.plugins.configureRouting
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
