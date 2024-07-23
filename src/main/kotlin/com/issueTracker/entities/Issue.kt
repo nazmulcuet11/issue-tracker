@@ -1,9 +1,10 @@
-package com.issueTracker.domain
+package com.issueTracker.entities
 
 import java.util.Date
 
-data class Issue(
+class Issue(
+    id: String,
     val title: String,
     val description: String,
     val createdAt: Date,
-)
+): Entity(id)
