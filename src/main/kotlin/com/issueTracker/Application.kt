@@ -1,6 +1,7 @@
 package com.issueTracker
 
-import com.issueTracker.routes.configureRoutes
+import com.issueTracker.plugins.configureRouting
+import com.issueTracker.plugins.contentNegotiation
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -8,5 +9,6 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    configureRoutes()
+    configureRouting()
+    contentNegotiation()
 }

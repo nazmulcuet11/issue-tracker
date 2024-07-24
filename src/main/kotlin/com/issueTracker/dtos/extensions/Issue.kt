@@ -8,6 +8,6 @@ fun Issue.toDto(): IssueResponse {
         this.id,
         this.title,
         this.description,
-        this.createdAt,
+        this.createdAt.toString(),
     )
 }
