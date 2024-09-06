@@ -39,6 +39,7 @@ dependencies {
 
     // logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("io.ktor:ktor-server-call-logging:$ktor_version")
 
     // Dependency Injection
     // Koin for Ktor
