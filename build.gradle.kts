@@ -1,7 +1,11 @@
 
+@Suppress("VariableNaming", "UnderscoreNaming")
 val kotlin_version: String by project
+@Suppress("VariableNaming", "UnderscoreNaming")
 val logback_version: String by project
+@Suppress("VariableNaming", "UnderscoreNaming")
 val ktor_version: String by project
+@Suppress("VariableNaming", "UnderscoreNaming")
 val koin_version: String by project
 
 plugins {
@@ -37,9 +41,10 @@ dependencies {
     // logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
+    // Dependency Injection
     // Koin for Ktor
     implementation("io.insert-koin:koin-ktor:$koin_version")
-    // SLF4J Logger
+    // SLF4J Logger for Koin
     implementation("io.insert-koin:koin-logger-slf4j:$koin_version")
 
     // test
