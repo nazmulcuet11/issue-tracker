@@ -1,17 +1,18 @@
 package com.issueTracker
 
-import com.issueTracker.di.issueTrackerModule
 import com.issueTracker.plugins.configureDI
+import com.issueTracker.plugins.configureLogging
 import com.issueTracker.plugins.configureRouting
-import com.issueTracker.plugins.contentNegotiation
-import io.ktor.server.application.*
+import com.issueTracker.plugins.configureSerialization
+import io.ktor.server.application.Application
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
 fun Application.module() {
+    configureLogging()
+    configureDI()
+    configureSerialization()
     configureRouting()
-    contentNegotiation()
-    configureDI(listOf(issueTrackerModule))
 }
