@@ -1,11 +1,10 @@
-
-@Suppress("VariableNaming", "UnderscoreNaming")
+@Suppress("VariableNaming")
 val kotlin_version: String by project
-@Suppress("VariableNaming", "UnderscoreNaming")
+@Suppress("VariableNaming")
 val logback_version: String by project
-@Suppress("VariableNaming", "UnderscoreNaming")
+@Suppress("VariableNaming")
 val ktor_version: String by project
-@Suppress("VariableNaming", "UnderscoreNaming")
+@Suppress("VariableNaming")
 val koin_version: String by project
 
 plugins {
