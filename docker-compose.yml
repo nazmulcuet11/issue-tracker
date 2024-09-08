@@ -1,0 +1,14 @@
+version: '1.0'
+
+services:
+  issue_service_postgres:
+    image: postgres:16.1
+    container_name: issue_service_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./data/order_service_postgres/var/lib/postgresql/data:/var/lib/postgresql/data
