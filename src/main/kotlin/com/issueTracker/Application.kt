@@ -1,9 +1,6 @@
 package com.issueTracker
 
-import com.issueTracker.plugins.configureDI
-import com.issueTracker.plugins.configureLogging
-import com.issueTracker.plugins.configureRouting
-import com.issueTracker.plugins.configureSerialization
+import com.issueTracker.plugins.*
 import io.ktor.server.application.Application
 
 fun main(args: Array<String>) {
@@ -13,6 +10,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
     configureLogging()
     configureDI()
+    configureDatabase()
     configureSerialization()
     configureRouting()
 }
