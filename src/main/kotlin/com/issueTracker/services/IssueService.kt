@@ -9,6 +9,6 @@ class IssueService(
     private val repository: IIssueRepository
 ): IIssueService {
     override suspend fun getAllIssues(command: GetAllIssueCommand): List<Issue> {
-        return repository.getAll()
+        return repository.selectAll()
     }
 }

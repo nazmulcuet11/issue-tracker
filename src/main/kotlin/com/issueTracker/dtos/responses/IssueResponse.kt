@@ -5,8 +5,8 @@ import java.util.*
 
 @Serializable
 data class IssueResponse(
-    val id: String,
+    val id: Int,
     val title: String,
     val description: String,
-    val createdAt: String,
+    val createdAt: Long,
 )

@@ -1,3 +1,3 @@
 package com.issueTracker.entities
 
-abstract class Entity(val id: String)
+abstract class Entity(val id: Int)
