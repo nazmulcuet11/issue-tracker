@@ -1,12 +1,10 @@
 package com.issueTracker.services.interfaces
 
-import com.issueTracker.commands.CreateIssueCommand
 import com.issueTracker.entities.Issue
-import com.issueTracker.commands.GetAllIssueCommand
-import com.issueTracker.commands.GetIssueByIdCommand
+import com.issueTracker.dtos.responses.CreateIssueRequest
 
 interface IssueService {
-    suspend fun getAllIssues(command: GetAllIssueCommand): List<Issue>
-    suspend fun getIssueById(command: GetIssueByIdCommand): Issue?
-    suspend fun createIssue(command: CreateIssueCommand): Issue?
+    suspend fun getAllIssues(): List<Issue>
+    suspend fun getIssueById(id: Int): Issue?
+    suspend fun createIssue(request: CreateIssueRequest): Issue?
 }
