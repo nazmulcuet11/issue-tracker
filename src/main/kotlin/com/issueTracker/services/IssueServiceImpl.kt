@@ -1,6 +1,5 @@
 package com.issueTracker.services
 
-import com.issueTracker.dtos.responses.CreateIssueRequest
 import com.issueTracker.entities.Issue
 import com.issueTracker.repositories.interfaces.IssueRepository
 import com.issueTracker.services.interfaces.IssueService
@@ -17,11 +16,11 @@ class IssueServiceImpl(
         return repository.selectById(id)
     }
 
-    override suspend fun createIssue(request: CreateIssueRequest): Issue? {
+    override suspend fun createIssue(title: String, description: String?): Issue? {
         val issue = Issue(
             id = 0,
-            title = request.title,
-            description = request.description,
+            title = title,
+            description = description,
             createdAt = Date()
         )
         return repository.insert(issue)

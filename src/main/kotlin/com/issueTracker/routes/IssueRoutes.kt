@@ -22,7 +22,7 @@ fun Route.configureOrderRoutes() {
         post {
             val request = call.receive<CreateIssueRequest>()
             val service = call.koinScope.get<IssueService>()
-            val issue = service.createIssue(request)
+            val issue = service.createIssue(request.title, request.description)
             if (issue == null) {
                 call.respond(HttpStatusCode.BadRequest)
                 return@post
