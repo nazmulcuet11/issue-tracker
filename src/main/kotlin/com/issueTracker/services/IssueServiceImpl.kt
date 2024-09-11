@@ -4,13 +4,13 @@ import com.issueTracker.commands.CreateIssueCommand
 import com.issueTracker.commands.GetAllIssueCommand
 import com.issueTracker.commands.GetIssueByIdCommand
 import com.issueTracker.entities.Issue
-import com.issueTracker.repositories.interfaces.IIssueRepository
-import com.issueTracker.services.interfaces.IIssueService
+import com.issueTracker.repositories.interfaces.IssueRepository
+import com.issueTracker.services.interfaces.IssueService
 import java.util.*
 
-class IssueService(
-    private val repository: IIssueRepository
-): IIssueService {
+class IssueServiceImpl(
+    private val repository: IssueRepository
+): IssueService {
     override suspend fun getAllIssues(command: GetAllIssueCommand): List<Issue> {
         return repository.selectAll()
     }

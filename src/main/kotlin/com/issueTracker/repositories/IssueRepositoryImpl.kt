@@ -3,7 +3,7 @@ package com.issueTracker.repositories
 import com.issueTracker.daos.Issues
 import com.issueTracker.entities.Issue
 import com.issueTracker.plugins.dbQuery
-import com.issueTracker.repositories.interfaces.IIssueRepository
+import com.issueTracker.repositories.interfaces.IssueRepository
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
@@ -13,7 +13,7 @@ import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 import java.util.*
 
-class IssueRepository: IIssueRepository {
+class IssueRepositoryImpl: IssueRepository {
     override suspend fun selectAll(): List<Issue> = dbQuery {
         Issues.selectAll().map(::resultRowToIssue)
     }

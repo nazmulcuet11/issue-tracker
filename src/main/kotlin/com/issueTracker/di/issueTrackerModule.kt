@@ -1,21 +1,21 @@
 package com.issueTracker.di
 
 import com.issueTracker.constants.REQUEST_SCOPE_NAME
-import com.issueTracker.repositories.IssueRepository
-import com.issueTracker.repositories.interfaces.IIssueRepository
-import com.issueTracker.services.IssueService
-import com.issueTracker.services.interfaces.IIssueService
+import com.issueTracker.repositories.IssueRepositoryImpl
+import com.issueTracker.repositories.interfaces.IssueRepository
+import com.issueTracker.services.IssueServiceImpl
+import com.issueTracker.services.interfaces.IssueService
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val issueTrackerModule = module {
     scope(named(REQUEST_SCOPE_NAME)) {
-        scoped<IIssueRepository> {
-            IssueRepository()
+        scoped<IssueRepository> {
+            IssueRepositoryImpl()
         }
 
-        scoped<IIssueService> {
-            IssueService(get())
+        scoped<IssueService> {
+            IssueServiceImpl(get())
         }
     }
 }

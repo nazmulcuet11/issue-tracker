@@ -5,7 +5,7 @@ import com.issueTracker.commands.GetIssueByIdCommand
 import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.responses.CreateIssueRequest
-import com.issueTracker.services.interfaces.IIssueService
+import com.issueTracker.services.interfaces.IssueService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -16,7 +16,7 @@ fun Route.configureOrderRoutes() {
     route("/api/v1/issue") {
         get {
             val command = com.issueTracker.commands.GetAllIssueCommand()
-            val service = call.koinScope.get<IIssueService>()
+            val service = call.koinScope.get<IssueService>()
             val issues = service.getAllIssues(command)
             val issuesDto = issues.map { it.toDto() }
             call.respond(issuesDto)
@@ -25,7 +25,7 @@ fun Route.configureOrderRoutes() {
         post {
             val issueRequest = call.receive<CreateIssueRequest>()
             val command = CreateIssueCommand(issueRequest)
-            val service = call.koinScope.get<IIssueService>()
+            val service = call.koinScope.get<IssueService>()
             val issue = service.createIssue(command)
             if (issue == null) {
                 call.respond(HttpStatusCode.BadRequest)
@@ -40,7 +40,7 @@ fun Route.configureOrderRoutes() {
                 call.respond(HttpStatusCode.BadRequest)
                 return@get
             }
-            val service = call.koinScope.get<IIssueService>()
+            val service = call.koinScope.get<IssueService>()
             val command = GetIssueByIdCommand(id)
             val issue = service.getIssueById(command)
             if (issue == null) {

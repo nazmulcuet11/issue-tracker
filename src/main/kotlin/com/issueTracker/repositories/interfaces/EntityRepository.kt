@@ -1,6 +1,6 @@
 package com.issueTracker.repositories.interfaces
 
-interface IEntityRepository<TEntity> {
+interface EntityRepository<TEntity> {
     suspend fun selectAll(): List<TEntity>
     suspend fun selectById(id: Int): TEntity?
     suspend fun insert(entity: TEntity): TEntity?
