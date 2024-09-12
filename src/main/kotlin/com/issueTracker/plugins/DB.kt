@@ -2,6 +2,7 @@ package com.issueTracker.plugins
 
 import com.issueTracker.constants.MAXIMUM_DB_CONNECTION_PULL_SIZE
 import com.issueTracker.daos.Issues
+import com.issueTracker.daos.Users
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.server.application.Application
@@ -33,5 +34,6 @@ fun Application.configureDatabase() {
     val db=Database.connect(provideDataSource(jdbcUrl, driverClass))
     transaction(db){
         SchemaUtils.create(Issues)
+        SchemaUtils.create(Users)
     }
 }

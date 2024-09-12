@@ -1,47 +1,70 @@
 package com.issueTracker.repositories
 
+import com.issueTracker.daos.Users
 import com.issueTracker.entities.User
+import com.issueTracker.plugins.dbQuery
 import com.issueTracker.repositories.interfaces.UserRepository
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 
 class UserRepositoryImpl: UserRepository {
-    private var id = 0
-    private val users = mutableListOf<User>()
-
-    override suspend fun selectAll(): List<User> {
-        return users
+    override suspend fun selectAll(): List<User> = dbQuery {
+        Users.selectAll().map(::resultRowToUser)
     }
 
-    override suspend fun selectById(id: Int): User? {
-        return users.find { it.id == id }
+    override suspend fun selectById(id: Int): User? = dbQuery {
+        Users
+            .select(Users.id eq id)
+            .singleOrNull()
+            ?.let { resultRowToUser(it) }
     }
 
-    override suspend fun selectByEmail(email: String): User? {
-        return users.find { it.email == email }
+    override suspend fun selectByEmail(email: String): User? = dbQuery {
+        Users
+            .select(Users.email eq email)
+            .singleOrNull()
+            ?.let { resultRowToUser(it) }
     }
 
-    override suspend fun insert(entity: User): User? {
-        users.add(
-            User(
-                id = id,
-                firstName = entity.firstName,
-                lastName = entity.lastName,
-                email = entity.email,
-                passwordHash = entity.passwordHash
-            )
-        )
-        id++
-        return entity
+    override suspend fun insert(entity: User): User? = dbQuery {
+        val query = Users.insert {
+            it[email] = entity.email
+            it[firstName] = entity.firstName
+            it[lastName] = entity.lastName
+            it[passwordHash] = entity.passwordHash
+        }
+        query.resultedValues?.singleOrNull()?.let { resultRowToUser(it) }
     }
 
-    override suspend fun update(entity: User): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun update(entity: User): Boolean = dbQuery {
+        Users.update({ Users.id eq entity.id }) {
+            it[email] = entity.email
+            it[firstName] = entity.firstName
+            it[lastName] = entity.lastName
+            it[passwordHash] = entity.passwordHash
+        } > 0
     }
 
     override suspend fun delete(entity: User): Boolean {
-        TODO("Not yet implemented")
+        return deleteById(entity.id)
     }
 
-    override suspend fun deleteById(id: Int): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun deleteById(id: Int): Boolean = dbQuery {
+        Users.deleteWhere { Users.id eq id } > 0
+    }
+
+    private fun resultRowToUser(row: ResultRow): User {
+        return User(
+            id = row[Users.id],
+            firstName = row[Users.firstName],
+            lastName = row[Users.lastName],
+            email = row[Users.email],
+            passwordHash = row[Users.passwordHash]
+        )
     }
 }
