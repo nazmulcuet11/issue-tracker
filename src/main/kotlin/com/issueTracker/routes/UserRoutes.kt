@@ -9,6 +9,8 @@ import com.issueTracker.services.interfaces.JwtService
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -41,6 +43,24 @@ fun Route.configureUserRoutes() {
             }
             val response = LoginResponse(token)
             call.respond(response)
+        }
+
+        authenticate {
+            get("/profile") {
+                val principal = call.principal<JWTPrincipal>()
+                val service = call.koinScope.get<UserService>()
+                val id = principal?.payload?.getClaim("id")?.asInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@get
+                }
+                val user = service.getUserById(id)
+                if (user == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@get
+                }
+                call.respond(user.toDto())
+            }
         }
     }
 
