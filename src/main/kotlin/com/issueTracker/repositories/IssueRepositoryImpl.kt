@@ -29,20 +29,19 @@ class IssueRepositoryImpl: IssueRepository {
 
     override suspend fun insert(entity: Issue): Issue? = dbQuery {
         val query = Issues.insert {
-            it[Issues.title] = entity.title
-            it[Issues.description] = entity.description
-            it[Issues.createdAt] = entity.createdAt.time
+            it[title] = entity.title
+            it[description] = entity.description
+            it[createdAt] = entity.createdAt.time
         }
         query.resultedValues?.singleOrNull()?.let { resultRowToIssue(it) }
     }
 
     override suspend fun update(entity: Issue): Boolean = dbQuery {
         Issues.update({ Issues.id eq entity.id }) {
-            it[Issues.title] = entity.title
-            it[Issues.description] = entity.description
-            it[Issues.createdAt] = entity.createdAt.time
+            it[title] = entity.title
+            it[description] = entity.description
+            it[createdAt] = entity.createdAt.time
         } > 0
-
     }
 
     override suspend fun delete(entity: Issue): Boolean {
