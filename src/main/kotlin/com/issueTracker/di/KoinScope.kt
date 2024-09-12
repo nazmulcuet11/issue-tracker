@@ -1,12 +1,13 @@
 package com.issueTracker.di
 
 import com.issueTracker.constants.REQUEST_SCOPE_NAME
-import io.ktor.server.application.*
-import io.ktor.util.*
+import io.ktor.server.application.ApplicationCall
+import io.ktor.server.application.createApplicationPlugin
+import io.ktor.util.AttributeKey
+import java.util.*
 import org.koin.core.qualifier.named
 import org.koin.core.scope.Scope
 import org.koin.java.KoinJavaComponent.getKoin
-import java.util.*
 
 private val koinScopeAttributeKey = AttributeKey<Scope>("koinScope")
 

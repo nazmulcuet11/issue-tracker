@@ -1,4 +1,4 @@
-package com.issueTracker.dtos.responses
+package com.issueTracker.dtos.request
 
 import kotlinx.serialization.Serializable
 

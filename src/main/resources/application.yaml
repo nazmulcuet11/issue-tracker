@@ -8,3 +8,9 @@ ktor:
 storage:
     driverClassName: "org.postgresql.Driver"
     jdbcURL: "jdbc:postgresql://localhost:5432/postgres?user=admin&password=password"
+
+jwt:
+    audience: "jwt-audience"
+    issuer: "http://localhost"
+    realm: "issueTracker"
+    secret: "super_secret"

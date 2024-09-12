@@ -1,11 +1,13 @@
 package com.issueTracker.plugins
 
-import com.issueTracker.routes.configureOrderRoutes
-import io.ktor.server.application.*
-import io.ktor.server.routing.*
+import com.issueTracker.routes.configureIssueRoutes
+import com.issueTracker.routes.configureUserRoutes
+import io.ktor.server.application.Application
+import io.ktor.server.routing.routing
 
 fun Application.configureRouting() {
     routing {
-        configureOrderRoutes()
+        configureIssueRoutes()
+        configureUserRoutes()
     }
 }

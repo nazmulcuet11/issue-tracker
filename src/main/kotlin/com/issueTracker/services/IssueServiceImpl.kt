@@ -3,7 +3,7 @@ package com.issueTracker.services
 import com.issueTracker.entities.Issue
 import com.issueTracker.repositories.interfaces.IssueRepository
 import com.issueTracker.services.interfaces.IssueService
-import java.util.*
+import java.util.Date
 
 class IssueServiceImpl(
     private val repository: IssueRepository

@@ -1,4 +1,4 @@
-@file:Suppress("PropertyName")
+@file:Suppress("PropertyName", "VariableNaming")
 val kotlin_version: String by project
 val logback_version: String by project
 val ktor_version: String by project
@@ -6,11 +6,13 @@ val koin_version: String by project
 val exposed_version: String by project
 val postgres_version: String by project
 val hikari_cp_version: String by project
+val crypto_version: String by project
 
 plugins {
     kotlin("jvm") version "2.0.0"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
+    id("io.gitlab.arturbosch.detekt").version("1.23.0")
 }
 
 group = "com.issueTracker"
@@ -58,6 +60,7 @@ dependencies {
     // Authentication
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
+    implementation("org.springframework.security:spring-security-crypto:$crypto_version")
 
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
