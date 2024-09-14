@@ -2,6 +2,7 @@ package com.issueTracker.plugins
 
 import com.issueTracker.constants.MAXIMUM_DB_CONNECTION_PULL_SIZE
 import com.issueTracker.daos.Issues
+import com.issueTracker.daos.Tokens
 import com.issueTracker.daos.Users
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
@@ -35,5 +36,6 @@ fun Application.configureDatabase() {
     transaction(db){
         SchemaUtils.create(Issues)
         SchemaUtils.create(Users)
+        SchemaUtils.create(Tokens)
     }
 }
