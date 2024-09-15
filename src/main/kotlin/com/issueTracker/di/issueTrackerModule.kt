@@ -6,6 +6,7 @@ import com.issueTracker.repositories.UserRepositoryImpl
 import com.issueTracker.repositories.interfaces.IssueRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.services.IssueServiceImpl
+import com.issueTracker.services.JwtConfig
 import com.issueTracker.services.JwtServiceImpl
 import com.issueTracker.services.UserServiceImpl
 import com.issueTracker.services.interfaces.IssueService
@@ -16,6 +17,10 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 fun Application.issueTrackerModule() = module {
+    single<JwtConfig> {
+        JwtConfig(environment.config)
+    }
+
     scope(named(REQUEST_SCOPE_NAME)) {
         scoped<IssueRepository> {
             IssueRepositoryImpl()
@@ -24,17 +29,17 @@ fun Application.issueTrackerModule() = module {
         scoped<IssueService> {
             IssueServiceImpl(get())
         }
-    }
 
-    single<UserRepository> {
-        UserRepositoryImpl()
-    }
+        scoped<UserRepository> {
+            UserRepositoryImpl()
+        }
 
-    single<UserService> {
-        UserServiceImpl(get())
-    }
+        scoped<JwtService> {
+            JwtServiceImpl(get())
+        }
 
-    single<JwtService> {
-        JwtServiceImpl(environment.config, get())
+        scoped<UserService> {
+            UserServiceImpl(get(), get())
+        }
     }
 }

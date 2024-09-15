@@ -17,11 +17,11 @@ suspend fun <T> dbQuery(block: suspend () -> T): T {
     return newSuspendedTransaction(Dispatchers.IO) { block() }
 }
 
-private fun provideDataSource(url:String,driverClass:String):HikariDataSource{
-    val hikariConfig= HikariConfig().apply {
-        driverClassName=driverClass
-        jdbcUrl=url
-        maximumPoolSize=MAXIMUM_DB_CONNECTION_PULL_SIZE
+private fun provideDataSource(url: String, driverClass: String): HikariDataSource {
+    val hikariConfig = HikariConfig().apply {
+        driverClassName = driverClass
+        jdbcUrl = url
+        maximumPoolSize = MAXIMUM_DB_CONNECTION_PULL_SIZE
         isAutoCommit = false
         transactionIsolation = "TRANSACTION_REPEATABLE_READ"
         validate()
@@ -30,10 +30,10 @@ private fun provideDataSource(url:String,driverClass:String):HikariDataSource{
 }
 
 fun Application.configureDatabase() {
-    val driverClass=environment.config.property("storage.driverClassName").getString()
-    val jdbcUrl=environment.config.property("storage.jdbcURL").getString()
-    val db=Database.connect(provideDataSource(jdbcUrl, driverClass))
-    transaction(db){
+    val driverClass = environment.config.property("storage.driverClassName").getString()
+    val jdbcUrl = environment.config.property("storage.jdbcURL").getString()
+    val db = Database.connect(provideDataSource(jdbcUrl, driverClass))
+    transaction(db) {
         SchemaUtils.create(Issues)
         SchemaUtils.create(Users)
         SchemaUtils.create(Tokens)
