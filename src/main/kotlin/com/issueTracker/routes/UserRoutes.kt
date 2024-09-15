@@ -4,6 +4,7 @@ import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.request.LoginRequest
 import com.issueTracker.dtos.request.SignupRequest
+import com.issueTracker.dtos.request.TokenRefreshRequest
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -42,6 +43,20 @@ fun Route.configureUserRoutes() {
             val request = call.receive<LoginRequest>()
             service
                 .login(request)
+                .onSuccess {
+                    call.respond(it)
+                }
+                .onFailure {
+                    logger.error(it.toString())
+                    call.respond(HttpStatusCode.BadRequest, it.message.toString())
+                }
+        }
+
+        post("token-refresh") {
+            val service = call.koinScope.get<UserService>()
+            val request = call.receive<TokenRefreshRequest>()
+            service
+                .tokenRefresh(request)
                 .onSuccess {
                     call.respond(it)
                 }

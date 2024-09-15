@@ -2,8 +2,10 @@ package com.issueTracker.di
 
 import com.issueTracker.constants.REQUEST_SCOPE_NAME
 import com.issueTracker.repositories.IssueRepositoryImpl
+import com.issueTracker.repositories.TokenRepositoryImpl
 import com.issueTracker.repositories.UserRepositoryImpl
 import com.issueTracker.repositories.interfaces.IssueRepository
+import com.issueTracker.repositories.interfaces.TokenRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.services.IssueServiceImpl
 import com.issueTracker.services.JwtConfig
@@ -38,8 +40,12 @@ fun Application.issueTrackerModule() = module {
             JwtServiceImpl(get())
         }
 
+        scoped<TokenRepository> {
+            TokenRepositoryImpl()
+        }
+
         scoped<UserService> {
-            UserServiceImpl(get(), get())
+            UserServiceImpl(get(), get(), get())
         }
     }
 }
