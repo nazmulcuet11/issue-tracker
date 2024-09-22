@@ -7,7 +7,7 @@ import com.issueTracker.dtos.request.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
 import com.issueTracker.entities.User
-import com.issueTracker.repositories.interfaces.TokenRepository
+import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.services.interfaces.JwtService
 import com.issueTracker.services.interfaces.UserService
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt
 
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val tokenRepository: TokenRepository,
+    private val tokenRepository: UserTokenRepository,
     private val jwtService: JwtService,
 ) : UserService {
     override suspend fun getAllUsers(): List<User> {
@@ -63,20 +63,20 @@ class UserServiceImpl(
         return Result.success(response)
     }
 
-    override suspend fun tokenRefresh(request: TokenRefreshRequest): Result<AuthResponse> {
-        if (tokenRepository.exists(request.refreshToken).not()) {
-            return Result.failure(invalidRefreshToken)
-        }
 
+    override suspend fun tokenRefresh(request: TokenRefreshRequest): Result<AuthResponse> {
         val decodedJWT = jwtService.verify(request.refreshToken)
         if (jwtService.audienceMatches(decodedJWT.audience).not()) {
             return Result.failure(invalidRefreshToken)
         }
-
         val id = decodedJWT.getClaim("id").asInt()
+
+        if (tokenRepository.exists(request.refreshToken, id).not()) {
+            return Result.failure(invalidRefreshToken)
+        }
         val user = userRepository.selectById(id) ?: return Result.failure(invalidRefreshToken)
 
-        tokenRepository.delete(request.refreshToken)
+        tokenRepository.delete(request.refreshToken, id)
         val response = generateAuthResponse(user)
         return Result.success(response)
     }
@@ -84,7 +84,7 @@ class UserServiceImpl(
     private suspend fun generateAuthResponse(user: User): AuthResponse {
         val accessToken = jwtService.generateAccessToken(user)
         val refreshToken = jwtService.generateRefreshToken(user)
-        tokenRepository.insert(refreshToken)
+        tokenRepository.insert(refreshToken, user.id)
         return AuthResponse(
             accessToken,
             refreshToken

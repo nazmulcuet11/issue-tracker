@@ -13,5 +13,5 @@ object Users: Table("users") {
     val passwordHash = varchar("password_hash", PASSWORD_MAX_LENGTH)
 
     override val primaryKey: PrimaryKey
-        get() = PrimaryKey(Issues.id)
+        get() = PrimaryKey(id)
 }
