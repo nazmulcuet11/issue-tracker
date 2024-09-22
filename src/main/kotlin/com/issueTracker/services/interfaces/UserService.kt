@@ -13,5 +13,7 @@ interface UserService {
     suspend fun getUserByEmail(email: String): User?
     suspend fun signup(request: SignupRequest): Result<SignupResponse>
     suspend fun login(request: LoginRequest): Result<AuthResponse>
+    suspend fun logout(userId: Int, token: String)
+    suspend fun logoutAll(userId: Int)
     suspend fun tokenRefresh(request: TokenRefreshRequest): Result<AuthResponse>
 }

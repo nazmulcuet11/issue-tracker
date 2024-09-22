@@ -83,6 +83,35 @@ fun Route.configureUserRoutes() {
                 call.respond(user.toDto())
             }
         }
+
+        authenticate {
+            post("/logout") {
+                val principal = call.principal<JWTPrincipal>()
+                val id = principal?.payload?.getClaim("id")?.asInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@post
+                }
+                val request = call.receive<TokenRefreshRequest>()
+                val service = call.koinScope.get<UserService>()
+                service.logout(id, request.refreshToken)
+                call.respond(HttpStatusCode.OK)
+            }
+        }
+
+        authenticate {
+            post("/logout-all") {
+                val principal = call.principal<JWTPrincipal>()
+                val id = principal?.payload?.getClaim("id")?.asInt()
+                if (id == null) {
+                    call.respond(HttpStatusCode.BadRequest)
+                    return@post
+                }
+                val service = call.koinScope.get<UserService>()
+                service.logoutAll(id)
+                call.respond(HttpStatusCode.OK)
+            }
+        }
     }
 
     // todo authenticate

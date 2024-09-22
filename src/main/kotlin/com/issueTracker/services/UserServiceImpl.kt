@@ -63,6 +63,13 @@ class UserServiceImpl(
         return Result.success(response)
     }
 
+    override suspend fun logout(userId: Int, token: String) {
+        tokenRepository.delete(token, userId)
+    }
+
+    override suspend fun logoutAll(userId: Int) {
+        tokenRepository.deleteAllToken(userId)
+    }
 
     override suspend fun tokenRefresh(request: TokenRefreshRequest): Result<AuthResponse> {
         val decodedJWT = jwtService.verify(request.refreshToken)
