@@ -8,7 +8,6 @@ import com.issueTracker.repositories.interfaces.IssueRepository
 import com.issueTracker.repositories.interfaces.TokenRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.services.IssueServiceImpl
-import com.issueTracker.services.JwtConfig
 import com.issueTracker.services.JwtServiceImpl
 import com.issueTracker.services.UserServiceImpl
 import com.issueTracker.services.interfaces.IssueService
@@ -19,8 +18,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 fun Application.issueTrackerModule() = module {
-    single<JwtConfig> {
-        JwtConfig(environment.config)
+    single<JwtService> {
+        JwtServiceImpl(environment.config)
     }
 
     scope(named(REQUEST_SCOPE_NAME)) {
@@ -36,9 +35,6 @@ fun Application.issueTrackerModule() = module {
             UserRepositoryImpl()
         }
 
-        scoped<JwtService> {
-            JwtServiceImpl(get())
-        }
 
         scoped<TokenRepository> {
             TokenRepositoryImpl()
