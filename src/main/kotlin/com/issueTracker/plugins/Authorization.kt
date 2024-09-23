@@ -8,10 +8,6 @@ import io.ktor.server.auth.jwt.JWTPrincipal
 import io.ktor.server.auth.principal
 import io.ktor.server.response.respond
 
-class AuthorizationConfig {
-    var roles = setOf<String>()
-}
-
 val AuthorizationPlugin = createRouteScopedPlugin(
     name = "AuthorizationPlugin",
     createConfiguration = ::AuthorizationConfig
@@ -26,6 +22,10 @@ val AuthorizationPlugin = createRouteScopedPlugin(
             }
         }
     }
+}
+
+class AuthorizationConfig {
+    var roles = setOf<String>()
 }
 
 private fun getRoleFromToken(call: ApplicationCall): String? = call
