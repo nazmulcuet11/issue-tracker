@@ -5,6 +5,7 @@ import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.request.LoginRequest
 import com.issueTracker.dtos.request.SignupRequest
 import com.issueTracker.dtos.request.TokenRefreshRequest
+import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -112,31 +113,43 @@ fun Route.configureUserRoutes() {
                 call.respond(HttpStatusCode.OK)
             }
         }
+
+        authenticate {
+            authorized("admin") {
+                // get all users
+                get {
+                    val service = call.koinScope.get<UserService>()
+                    val users = service.getAllUsers()
+                    val usersDto = users.map { it.toDto() }
+                    call.respond(usersDto)
+                }
+            }
+        }
     }
 
     // todo authenticate
-    route("/api/v1/user") {
-        get {
-            val service = call.koinScope.get<UserService>()
-            val users = service.getAllUsers()
-            val usersDto = users.map { it.toDto() }
-            call.respond(usersDto)
-        }
+//    route("/api/v1/user") {
+//        get {
+//            val service = call.koinScope.get<UserService>()
+//            val users = service.getAllUsers()
+//            val usersDto = users.map { it.toDto() }
+//            call.respond(usersDto)
+//        }
 
         // todo authenticate
-        get("/{id}") {
-            val id = call.parameters["id"]?.toIntOrNull()
-            if (id == null) {
-                call.respond(HttpStatusCode.BadRequest)
-                return@get
-            }
-            val service = call.koinScope.get<UserService>()
-            val user = service.getUserById(id)
-            if (user == null) {
-                call.respond(HttpStatusCode.NotFound)
-                return@get
-            }
-            call.respond(user.toDto())
-        }
-    }
+//        get("/{id}") {
+//            val id = call.parameters["id"]?.toIntOrNull()
+//            if (id == null) {
+//                call.respond(HttpStatusCode.BadRequest)
+//                return@get
+//            }
+//            val service = call.koinScope.get<UserService>()
+//            val user = service.getUserById(id)
+//            if (user == null) {
+//                call.respond(HttpStatusCode.NotFound)
+//                return@get
+//            }
+//            call.respond(user.toDto())
+//        }
+//    }
 }
