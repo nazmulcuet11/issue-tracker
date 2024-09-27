@@ -7,6 +7,7 @@ import com.issueTracker.dtos.request.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
 import com.issueTracker.entities.User
+import com.issueTracker.repositories.interfaces.RoleRepository
 import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.services.interfaces.JwtService
@@ -15,11 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCrypt
 
 class UserServiceImpl(
     private val userRepository: UserRepository,
+    private val roleRepository: RoleRepository,
     private val tokenRepository: UserTokenRepository,
     private val jwtService: JwtService,
 ) : UserService {
     override suspend fun getAllUsers(): List<User> {
-        return userRepository.selectAll()
+        val users = userRepository.selectAll()
+        for (user in users) {
+            user.roles = roleRepository.getRolesByUserId(user.id)
+        }
+        return users
     }
 
     override suspend fun getUserById(id: Int): User? {
@@ -41,7 +47,7 @@ class UserServiceImpl(
                 firstName = request.firstName,
                 lastName = request.lastName,
                 email = request.email,
-                passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
+                passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt()),
             )
         ) ?: throw Error("could not create user")
 

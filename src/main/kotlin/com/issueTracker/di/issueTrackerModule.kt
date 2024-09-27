@@ -2,9 +2,11 @@ package com.issueTracker.di
 
 import com.issueTracker.constants.REQUEST_SCOPE_NAME
 import com.issueTracker.repositories.IssueRepositoryImpl
+import com.issueTracker.repositories.RoleRepositoryImpl
 import com.issueTracker.repositories.UserRepositoryImpl
 import com.issueTracker.repositories.UserTokenRepositoryImpl
 import com.issueTracker.repositories.interfaces.IssueRepository
+import com.issueTracker.repositories.interfaces.RoleRepository
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.services.IssueServiceImpl
@@ -39,8 +41,12 @@ fun Application.issueTrackerModule() = module {
             UserTokenRepositoryImpl()
         }
 
+        scoped<RoleRepository> {
+            RoleRepositoryImpl()
+        }
+
         scoped<UserService> {
-            UserServiceImpl(get(), get(), get())
+            UserServiceImpl(get(), get(), get(), get())
         }
     }
 }

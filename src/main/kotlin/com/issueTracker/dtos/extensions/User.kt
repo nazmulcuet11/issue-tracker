@@ -9,5 +9,6 @@ fun User.toDto(): UserResponse {
         firstName = this.firstName,
         lastName = this.lastName,
         email = this.email,
+        roles = this.roles?.map { it.toDto() },
     )
 }

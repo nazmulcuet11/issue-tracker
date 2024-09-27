@@ -5,7 +5,6 @@ import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.request.LoginRequest
 import com.issueTracker.dtos.request.SignupRequest
 import com.issueTracker.dtos.request.TokenRefreshRequest
-import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -114,27 +113,27 @@ fun Route.configureUserRoutes() {
             }
         }
 
-        authenticate {
-            authorized("admin") {
-                // get all users
-                get {
-                    val service = call.koinScope.get<UserService>()
-                    val users = service.getAllUsers()
-                    val usersDto = users.map { it.toDto() }
-                    call.respond(usersDto)
-                }
-            }
-        }
+//        authenticate {
+//            authorized("admin") {
+//                // get all users
+//                get {
+//                    val service = call.koinScope.get<UserService>()
+//                    val users = service.getAllUsers()
+//                    val usersDto = users.map { it.toDto() }
+//                    call.respond(usersDto)
+//                }
+//            }
+//        }
     }
 
     // todo authenticate
-//    route("/api/v1/user") {
-//        get {
-//            val service = call.koinScope.get<UserService>()
-//            val users = service.getAllUsers()
-//            val usersDto = users.map { it.toDto() }
-//            call.respond(usersDto)
-//        }
+    route("/api/v1/user") {
+        get {
+            val service = call.koinScope.get<UserService>()
+            val users = service.getAllUsers()
+            val usersDto = users.map { it.toDto() }
+            call.respond(usersDto)
+        }
 
         // todo authenticate
 //        get("/{id}") {
@@ -151,5 +150,5 @@ fun Route.configureUserRoutes() {
 //            }
 //            call.respond(user.toDto())
 //        }
-//    }
+    }
 }
