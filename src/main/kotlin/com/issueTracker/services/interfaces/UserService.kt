@@ -1,8 +1,8 @@
 package com.issueTracker.services.interfaces
 
-import com.issueTracker.dtos.request.LoginRequest
-import com.issueTracker.dtos.request.SignupRequest
-import com.issueTracker.dtos.request.TokenRefreshRequest
+import com.issueTracker.dtos.requests.LoginRequest
+import com.issueTracker.dtos.requests.SignupRequest
+import com.issueTracker.dtos.requests.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
 import com.issueTracker.entities.User

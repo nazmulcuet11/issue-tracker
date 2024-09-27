@@ -2,9 +2,9 @@ package com.issueTracker.routes
 
 import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.extensions.toDto
-import com.issueTracker.dtos.request.LoginRequest
-import com.issueTracker.dtos.request.SignupRequest
-import com.issueTracker.dtos.request.TokenRefreshRequest
+import com.issueTracker.dtos.requests.LoginRequest
+import com.issueTracker.dtos.requests.SignupRequest
+import com.issueTracker.dtos.requests.TokenRefreshRequest
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call

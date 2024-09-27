@@ -2,7 +2,7 @@ package com.issueTracker.routes
 
 import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.extensions.toDto
-import com.issueTracker.dtos.request.CreateIssueRequest
+import com.issueTracker.dtos.requests.CreateIssueRequest
 import com.issueTracker.services.interfaces.IssueService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
