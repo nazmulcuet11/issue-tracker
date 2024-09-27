@@ -1,5 +1,6 @@
 package com.issueTracker.routes
 
+import LogoutRequest
 import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.requests.LoginRequest
@@ -92,7 +93,7 @@ fun Route.configureUserRoutes() {
                     call.respond(HttpStatusCode.BadRequest)
                     return@post
                 }
-                val request = call.receive<TokenRefreshRequest>()
+                val request = call.receive<LogoutRequest>()
                 val service = call.koinScope.get<UserService>()
                 service.logout(id, request.refreshToken)
                 call.respond(HttpStatusCode.OK)
