@@ -1,6 +1,8 @@
 package com.issueTracker.repositories
 
+import com.issueTracker.daos.Roles
 import com.issueTracker.daos.Users
+import com.issueTracker.entities.Role
 import com.issueTracker.entities.User
 import com.issueTracker.plugins.dbQuery
 import com.issueTracker.repositories.interfaces.UserRepository
@@ -12,13 +14,16 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 
-class UserRepositoryImpl: UserRepository {
+class UserRepositoryImpl : UserRepository {
     override suspend fun selectAll(): List<User> = dbQuery {
-        Users.selectAll().map(::resultRowToUser)
+        Users
+            .leftJoin(Roles)
+            .selectAll().map(::resultRowToUser)
     }
 
     override suspend fun selectById(id: Int): User? = dbQuery {
         Users
+            .leftJoin(Roles)
             .select(Users.id eq id)
             .singleOrNull()
             ?.let { resultRowToUser(it) }
@@ -26,6 +31,7 @@ class UserRepositoryImpl: UserRepository {
 
     override suspend fun selectByEmail(email: String): User? = dbQuery {
         Users
+            .leftJoin(Roles)
             .select(Users.email eq email)
             .singleOrNull()
             ?.let { resultRowToUser(it) }
@@ -59,12 +65,24 @@ class UserRepositoryImpl: UserRepository {
     }
 
     private fun resultRowToUser(row: ResultRow): User {
+
         return User(
             id = row[Users.id],
             firstName = row[Users.firstName],
             lastName = row[Users.lastName],
             email = row[Users.email],
-            passwordHash = row[Users.passwordHash]
+            passwordHash = row[Users.passwordHash],
+            role = resultRowToRole(row)
         )
+    }
+
+    private fun resultRowToRole(row: ResultRow): Role? {
+        return if (row.hasValue(Roles.id) && row[Roles.id] != null) {
+            Role(
+                id = row[Roles.id],
+                name = row[Roles.name],
+                description = row[Roles.description]
+            )
+        } else null
     }
 }

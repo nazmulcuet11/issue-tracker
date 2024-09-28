@@ -6,6 +6,7 @@ import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.requests.LoginRequest
 import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
+import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
@@ -114,29 +115,29 @@ fun Route.configureUserRoutes() {
             }
         }
 
-//        authenticate {
-//            authorized("admin") {
-//                // get all users
-//                get {
-//                    val service = call.koinScope.get<UserService>()
-//                    val users = service.getAllUsers()
-//                    val usersDto = users.map { it.toDto() }
-//                    call.respond(usersDto)
-//                }
-//            }
-//        }
+        authenticate {
+            authorized("admin") {
+                // get all users
+                get {
+                    val service = call.koinScope.get<UserService>()
+                    val users = service.getAllUsers()
+                    val usersDto = users.map { it.toDto() }
+                    call.respond(usersDto)
+                }
+            }
+        }
     }
 
     // todo authenticate
-    route("/api/v1/user") {
-        get {
-            val service = call.koinScope.get<UserService>()
-            val users = service.getAllUsers()
-            val usersDto = users.map { it.toDto() }
-            call.respond(usersDto)
-        }
+//    route("/api/v1/user") {
+//        get {
+//            val service = call.koinScope.get<UserService>()
+//            val users = service.getAllUsers()
+//            val usersDto = users.map { it.toDto() }
+//            call.respond(usersDto)
+//        }
 
-        // todo authenticate
+    // todo authenticate
 //        get("/{id}") {
 //            val id = call.parameters["id"]?.toIntOrNull()
 //            if (id == null) {
@@ -151,5 +152,5 @@ fun Route.configureUserRoutes() {
 //            }
 //            call.respond(user.toDto())
 //        }
-    }
+//    }
 }

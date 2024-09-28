@@ -7,25 +7,19 @@ import com.issueTracker.dtos.requests.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
 import com.issueTracker.entities.User
-import com.issueTracker.repositories.interfaces.RoleRepository
-import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.repositories.interfaces.UserRepository
+import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.services.interfaces.JwtService
 import com.issueTracker.services.interfaces.UserService
 import org.springframework.security.crypto.bcrypt.BCrypt
 
 class UserServiceImpl(
     private val userRepository: UserRepository,
-    private val roleRepository: RoleRepository,
     private val tokenRepository: UserTokenRepository,
     private val jwtService: JwtService,
 ) : UserService {
     override suspend fun getAllUsers(): List<User> {
-        val users = userRepository.selectAll()
-        for (user in users) {
-            user.roles = roleRepository.getRolesByUserId(user.id)
-        }
-        return users
+        return userRepository.selectAll()
     }
 
     override suspend fun getUserById(id: Int): User? {

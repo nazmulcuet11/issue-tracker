@@ -46,7 +46,7 @@ fun Application.issueTrackerModule() = module {
         }
 
         scoped<UserService> {
-            UserServiceImpl(get(), get(), get(), get())
+            UserServiceImpl(get(), get(), get())
         }
     }
 }

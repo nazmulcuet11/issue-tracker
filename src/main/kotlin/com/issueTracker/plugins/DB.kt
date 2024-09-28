@@ -2,9 +2,7 @@ package com.issueTracker.plugins
 
 import com.issueTracker.constants.MAXIMUM_DB_CONNECTION_PULL_SIZE
 import com.issueTracker.daos.Issues
-import com.issueTracker.daos.RolePermissions
 import com.issueTracker.daos.Roles
-import com.issueTracker.daos.UserRoles
 import com.issueTracker.daos.UserTokens
 import com.issueTracker.daos.Users
 import com.zaxxer.hikari.HikariConfig
@@ -41,7 +39,5 @@ fun Application.configureDatabase() {
         SchemaUtils.create(Users)
         SchemaUtils.create(UserTokens)
         SchemaUtils.create(Roles)
-        SchemaUtils.create(UserRoles)
-        SchemaUtils.create(RolePermissions)
     }
 }

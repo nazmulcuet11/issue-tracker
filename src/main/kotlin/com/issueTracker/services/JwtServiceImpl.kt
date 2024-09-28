@@ -62,6 +62,7 @@ class JwtServiceImpl(
             .withIssuer(issuer)
             .withClaim("id", user.id)
             .withClaim("email", user.email)
+            .withClaim("role", user.role?.name)
             .withExpiresAt(Date(System.currentTimeMillis() + ttl))
             .sign(algorithm)
     }

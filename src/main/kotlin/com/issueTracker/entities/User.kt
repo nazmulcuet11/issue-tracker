@@ -6,5 +6,5 @@ class User(
     val lastName: String,
     val email: String,
     val passwordHash: String,
-    var roles: List<Role>? = null
+    var role: Role? = null
 ): Entity(id)
