@@ -1,4 +1,5 @@
 package com.issueTracker.repositories.interfaces
 
-interface RoleRepository {
-}
+import com.issueTracker.entities.Role
+
+interface RoleRepository: EntityRepository<Role>
