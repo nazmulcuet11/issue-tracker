@@ -11,9 +11,11 @@ import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.services.IssueServiceImpl
 import com.issueTracker.services.JwtServiceImpl
+import com.issueTracker.services.RoleServiceImpl
 import com.issueTracker.services.UserServiceImpl
 import com.issueTracker.services.interfaces.IssueService
 import com.issueTracker.services.interfaces.JwtService
+import com.issueTracker.services.interfaces.RoleService
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.server.application.Application
 import org.koin.core.qualifier.named
@@ -43,6 +45,10 @@ fun Application.issueTrackerModule() = module {
 
         scoped<RoleRepository> {
             RoleRepositoryImpl()
+        }
+
+        scoped<RoleService> {
+            RoleServiceImpl(get())
         }
 
         scoped<UserService> {
