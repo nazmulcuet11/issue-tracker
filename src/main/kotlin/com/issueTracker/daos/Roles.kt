@@ -8,7 +8,7 @@ object Roles: Table("roles") {
 
     val id = integer("id").autoIncrement()
     val name = varchar("name", NAME_MAX_LENGTH)
-    val description = varchar("description", DESCRIPTION_MAX_LENGTH)
+    val description = varchar("description", DESCRIPTION_MAX_LENGTH).nullable()
 
     override val primaryKey: PrimaryKey
         get() = PrimaryKey(id)
