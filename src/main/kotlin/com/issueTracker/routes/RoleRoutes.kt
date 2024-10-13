@@ -2,6 +2,7 @@ package com.issueTracker.routes
 
 import com.issueTracker.di.koinScope
 import com.issueTracker.dtos.requests.CreateRoleRequest
+import com.issueTracker.dtos.responses.RoleResponse
 import com.issueTracker.mappers.modelsToDtos.toDto
 import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.RoleService
@@ -11,6 +12,7 @@ import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
+import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 
@@ -28,6 +30,13 @@ fun Route.configureRoleRoutes() {
                     } else {
                         call.respond(HttpStatusCode.InternalServerError, "Could not create role")
                     }
+                }
+
+                get {
+                    val service = call.koinScope.get<RoleService>()
+                    val roles = service.getRoles(0, Int.MAX_VALUE)
+                    val roleDTOs: List<RoleResponse> = roles.map { it.toDto() }
+                    call.respond(roleDTOs)
                 }
             }
         }

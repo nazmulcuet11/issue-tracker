@@ -7,10 +7,6 @@ import com.issueTracker.plugins.dbQuery
 import com.issueTracker.repositories.interfaces.RoleRepository
 
 class RoleRepositoryImpl : RoleRepository {
-    override suspend fun all(): List<Role> = dbQuery {
-        RoleEntity.all().map { it.toModel() }
-    }
-
     override suspend fun create(
         name: String,
         description: String
@@ -20,5 +16,12 @@ class RoleRepositoryImpl : RoleRepository {
             this.description = description
         }
         entity.toModel()
+    }
+
+    override suspend fun findAll(offset: Long, limit: Int): List<Role> = dbQuery {
+        RoleEntity
+            .all()
+            .limit(limit, offset)
+            .map { it.toModel() }
     }
 }
