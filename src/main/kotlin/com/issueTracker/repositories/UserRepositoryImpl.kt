@@ -47,4 +47,10 @@ class UserRepositoryImpl : UserRepository {
             .singleOrNull()
             ?.toModel()
     }
+
+    override suspend fun assignRole(userId: Int, roleId: Int) = dbQuery {
+        val user = UserEntity.findById(userId) ?: throw Error("user not found for id: $userId")
+        val role = RoleEntity.findById(roleId) ?: throw Error("role not found for id: $roleId")
+        user.role = role
+    }
 }

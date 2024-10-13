@@ -2,6 +2,7 @@ package com.issueTracker.routes
 
 import LogoutRequest
 import com.issueTracker.di.koinScope
+import com.issueTracker.dtos.requests.AssignRoleRequest
 import com.issueTracker.dtos.requests.LoginRequest
 import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
@@ -124,6 +125,13 @@ fun Route.configureUserRoutes() {
                     val users = service.getUsers(request.offset, request.limit)
                     val usersDto = users.map { it.toDto() }
                     call.respond(usersDto)
+                }
+
+                post("/assign-role") {
+                    val request = call.receive<AssignRoleRequest>()
+                    val service = call.koinScope.get<UserService>()
+                    service.assignRole(request)
+                    call.respond(HttpStatusCode.OK)
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.issueTracker.services
 
-
+import com.issueTracker.dtos.requests.AssignRoleRequest
 import com.issueTracker.dtos.requests.LoginRequest
 import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
@@ -84,6 +84,10 @@ class UserServiceImpl(
         tokenRepository.delete(request.refreshToken, id)
         val response = generateAuthResponse(user)
         return Result.success(response)
+    }
+
+    override suspend fun assignRole(request: AssignRoleRequest) {
+        userRepository.assignRole(request.userId, request.roleId)
     }
 
     private suspend fun generateAuthResponse(user: User): AuthResponse {

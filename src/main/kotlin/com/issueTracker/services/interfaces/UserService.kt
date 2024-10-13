@@ -1,5 +1,6 @@
 package com.issueTracker.services.interfaces
 
+import com.issueTracker.dtos.requests.AssignRoleRequest
 import com.issueTracker.dtos.requests.LoginRequest
 import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
@@ -16,4 +17,5 @@ interface UserService {
     suspend fun logout(userId: Int, token: String)
     suspend fun logoutAll(userId: Int)
     suspend fun tokenRefresh(request: TokenRefreshRequest): Result<AuthResponse>
+    suspend fun assignRole(request: AssignRoleRequest)
 }
