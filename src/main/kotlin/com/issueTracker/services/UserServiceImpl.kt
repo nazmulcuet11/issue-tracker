@@ -6,7 +6,7 @@ import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
-import com.issueTracker.entities.User
+import com.issueTracker.models.User
 import com.issueTracker.repositories.interfaces.UserRepository
 import com.issueTracker.repositories.interfaces.UserTokenRepository
 import com.issueTracker.services.interfaces.JwtService
@@ -18,31 +18,29 @@ class UserServiceImpl(
     private val tokenRepository: UserTokenRepository,
     private val jwtService: JwtService,
 ) : UserService {
-    override suspend fun getAllUsers(): List<User> {
-        return userRepository.selectAll()
+    override suspend fun getUsers(offset: Long, limit: Int): List<User> {
+        return userRepository.findAll(offset, limit)
     }
 
     override suspend fun getUserById(id: Int): User? {
-        return userRepository.selectById(id)
+        return userRepository.findById(id)
     }
 
     override suspend fun getUserByEmail(email: String): User? {
-        return userRepository.selectByEmail(email)
+        return userRepository.findByEmail(email)
     }
 
     override suspend fun signup(request: SignupRequest): Result<SignupResponse> {
-        if (userRepository.selectByEmail(request.email) != null) {
+        if (userRepository.findByEmail(request.email) != null) {
             return Result.failure(emailAlreadyExists)
         }
 
-        val user = userRepository.insert(
-            User(
-                id = 0,
-                firstName = request.firstName,
-                lastName = request.lastName,
-                email = request.email,
-                passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt()),
-            )
+        val passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
+        val user = userRepository.createUser(
+            request.firstName,
+            request.lastName,
+            request.email,
+            passwordHash
         ) ?: throw Error("could not create user")
 
         val authResponse = generateAuthResponse(user)
@@ -55,7 +53,7 @@ class UserServiceImpl(
     }
 
     override suspend fun login(request: LoginRequest): Result<AuthResponse> {
-        val user = userRepository.selectByEmail(request.email) ?: return Result.failure(noUserFoundWithEmail)
+        val user = userRepository.findByEmail(request.email) ?: return Result.failure(noUserFoundWithEmail)
         if (!BCrypt.checkpw(request.password, user.passwordHash)) {
             return Result.failure(incorrectPassword)
         }
@@ -81,7 +79,7 @@ class UserServiceImpl(
         if (tokenRepository.exists(request.refreshToken, id).not()) {
             return Result.failure(invalidRefreshToken)
         }
-        val user = userRepository.selectById(id) ?: return Result.failure(invalidRefreshToken)
+        val user = userRepository.findById(id) ?: return Result.failure(invalidRefreshToken)
 
         tokenRepository.delete(request.refreshToken, id)
         val response = generateAuthResponse(user)

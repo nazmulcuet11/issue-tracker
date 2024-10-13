@@ -2,10 +2,11 @@ package com.issueTracker.routes
 
 import LogoutRequest
 import com.issueTracker.di.koinScope
-import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.requests.LoginRequest
 import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
+import com.issueTracker.dtos.requests.UserListRequest
+import com.issueTracker.mappers.modelsToDtos.toDto
 import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.UserService
 import io.ktor.http.HttpStatusCode
@@ -40,7 +41,7 @@ fun Route.configureUserRoutes() {
                 }
         }
 
-        post("login") {
+        post("/login") {
             val service = call.koinScope.get<UserService>()
             val request = call.receive<LoginRequest>()
             service
@@ -54,7 +55,7 @@ fun Route.configureUserRoutes() {
                 }
         }
 
-        post("token-refresh") {
+        post("/token-refresh") {
             val service = call.koinScope.get<UserService>()
             val request = call.receive<TokenRefreshRequest>()
             service
@@ -117,40 +118,14 @@ fun Route.configureUserRoutes() {
 
         authenticate {
             authorized("admin") {
-                // get all users
-                get {
+                post("/list") {
                     val service = call.koinScope.get<UserService>()
-                    val users = service.getAllUsers()
+                    val request = call.receive<UserListRequest>()
+                    val users = service.getUsers(request.offset, request.limit)
                     val usersDto = users.map { it.toDto() }
                     call.respond(usersDto)
                 }
             }
         }
     }
-
-    // todo authenticate
-//    route("/api/v1/user") {
-//        get {
-//            val service = call.koinScope.get<UserService>()
-//            val users = service.getAllUsers()
-//            val usersDto = users.map { it.toDto() }
-//            call.respond(usersDto)
-//        }
-
-    // todo authenticate
-//        get("/{id}") {
-//            val id = call.parameters["id"]?.toIntOrNull()
-//            if (id == null) {
-//                call.respond(HttpStatusCode.BadRequest)
-//                return@get
-//            }
-//            val service = call.koinScope.get<UserService>()
-//            val user = service.getUserById(id)
-//            if (user == null) {
-//                call.respond(HttpStatusCode.NotFound)
-//                return@get
-//            }
-//            call.respond(user.toDto())
-//        }
-//    }
 }

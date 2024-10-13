@@ -1,7 +1,7 @@
-package com.issueTracker.dtos.extensions
+package com.issueTracker.mappers.modelsToDtos
 
 import com.issueTracker.dtos.responses.UserResponse
-import com.issueTracker.entities.User
+import com.issueTracker.models.User
 
 fun User.toDto(): UserResponse {
     return UserResponse(
@@ -9,6 +9,6 @@ fun User.toDto(): UserResponse {
         firstName = this.firstName,
         lastName = this.lastName,
         email = this.email,
-        role = this.role?.toDto(),
+        role = this.role.toDto(),
     )
 }

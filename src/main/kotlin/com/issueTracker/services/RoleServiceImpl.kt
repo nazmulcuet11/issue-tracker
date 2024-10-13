@@ -1,19 +1,17 @@
 package com.issueTracker.services
 
 import com.issueTracker.dtos.requests.CreateRoleRequest
-import com.issueTracker.entities.Role
+import com.issueTracker.models.Role
 import com.issueTracker.repositories.interfaces.RoleRepository
 import com.issueTracker.services.interfaces.RoleService
 
 class RoleServiceImpl(
     private val repository: RoleRepository
 ): RoleService {
-    override suspend fun createRole(request: CreateRoleRequest): Role? {
-        val role = Role(
-            id = 0,
-            name = request.name,
-            description = request.description
+    override suspend fun createRole(request: CreateRoleRequest): Role {
+        return repository.create(
+            request.name,
+            request.description ?: ""
         )
-        return repository.insert(role)
     }
 }

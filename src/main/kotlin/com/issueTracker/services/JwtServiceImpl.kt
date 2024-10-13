@@ -4,7 +4,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.DecodedJWT
-import com.issueTracker.entities.User
+import com.issueTracker.models.User
 import com.issueTracker.services.interfaces.JwtService
 import io.ktor.server.auth.jwt.JWTCredential
 import io.ktor.server.auth.jwt.JWTPrincipal
@@ -62,7 +62,7 @@ class JwtServiceImpl(
             .withIssuer(issuer)
             .withClaim("id", user.id)
             .withClaim("email", user.email)
-            .withClaim("role", user.role?.name)
+            .withClaim("role", user.role.name)
             .withExpiresAt(Date(System.currentTimeMillis() + ttl))
             .sign(algorithm)
     }

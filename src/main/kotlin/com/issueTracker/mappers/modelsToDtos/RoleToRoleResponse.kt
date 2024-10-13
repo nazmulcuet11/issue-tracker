@@ -1,7 +1,7 @@
-package com.issueTracker.dtos.extensions
+package com.issueTracker.mappers.modelsToDtos
 
 import com.issueTracker.dtos.responses.RoleResponse
-import com.issueTracker.entities.Role
+import com.issueTracker.models.Role
 
 fun Role.toDto(): RoleResponse {
     return RoleResponse(

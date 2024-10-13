@@ -1,5 +1,11 @@
 package com.issueTracker.repositories.interfaces
 
-import com.issueTracker.entities.Role
+import com.issueTracker.models.Role
 
-interface RoleRepository: EntityRepository<Role>
+interface RoleRepository {
+    suspend fun all(): List<Role>
+    suspend fun create(
+        name: String,
+        description: String
+    ): Role
+}

@@ -2,7 +2,7 @@ package com.issueTracker.services.interfaces
 
 import com.auth0.jwt.interfaces.DecodedJWT
 import com.auth0.jwt.interfaces.JWTVerifier
-import com.issueTracker.entities.User
+import com.issueTracker.models.User
 import io.ktor.server.auth.jwt.JWTCredential
 import io.ktor.server.auth.jwt.JWTPrincipal
 

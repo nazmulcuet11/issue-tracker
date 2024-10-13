@@ -5,10 +5,10 @@ import com.issueTracker.dtos.requests.SignupRequest
 import com.issueTracker.dtos.requests.TokenRefreshRequest
 import com.issueTracker.dtos.responses.AuthResponse
 import com.issueTracker.dtos.responses.SignupResponse
-import com.issueTracker.entities.User
+import com.issueTracker.models.User
 
 interface UserService {
-    suspend  fun getAllUsers(): List<User>
+    suspend  fun getUsers(offset: Long, limit: Int): List<User>
     suspend fun getUserById(id: Int): User?
     suspend fun getUserByEmail(email: String): User?
     suspend fun signup(request: SignupRequest): Result<SignupResponse>

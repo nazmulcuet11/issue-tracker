@@ -1,8 +1,8 @@
 package com.issueTracker.routes
 
 import com.issueTracker.di.koinScope
-import com.issueTracker.dtos.extensions.toDto
 import com.issueTracker.dtos.requests.CreateRoleRequest
+import com.issueTracker.mappers.modelsToDtos.toDto
 import com.issueTracker.routes.extensions.authorized
 import com.issueTracker.services.interfaces.RoleService
 import io.ktor.http.HttpStatusCode
