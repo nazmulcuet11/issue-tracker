@@ -1,6 +1,5 @@
 package com.issueTracker.plugins
 
-//import com.issueTracker.tables.Issues
 import com.issueTracker.constants.MAXIMUM_DB_CONNECTION_PULL_SIZE
 import com.issueTracker.entities.RoleEntity
 import com.issueTracker.entities.UserEntity
