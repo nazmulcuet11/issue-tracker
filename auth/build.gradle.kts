@@ -5,11 +5,8 @@ val exposedVersion: String by project
 val postgresVersion: String by project
 val hikariCpVersion: String by project
 val cryptoVersion: String by project
-val logbackVersion: String by project
-val koinVersion: String by project
 
 plugins {
-    kotlin("jvm") version "2.0.0"
     id("io.ktor.plugin") version "2.3.12"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.0"
 }
@@ -33,7 +30,6 @@ dependencies {
 
     // Logging
     implementation("io.ktor:ktor-server-call-logging:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
 
     // DB
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
@@ -47,12 +43,6 @@ dependencies {
     implementation("io.ktor:ktor-server-auth:$ktorVersion")
     implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
     implementation("org.springframework.security:spring-security-crypto:$cryptoVersion")
-
-    // Dependency Injection
-    // Koin for Ktor
-    implementation("io.insert-koin:koin-ktor:$koinVersion")
-    // SLF4J Logger for Koin
-    implementation("io.insert-koin:koin-logger-slf4j:$koinVersion")
 
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
