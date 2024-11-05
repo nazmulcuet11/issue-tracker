@@ -7,7 +7,7 @@ ktor:
 
 storage:
     driverClassName: "org.postgresql.Driver"
-    jdbcURL: "jdbc:postgresql://localhost:5432/postgres?user=admin&password=password"
+    jdbcURL: "jdbc:postgresql://auth_service_postgres:5432/postgres?user=admin&password=password"
 
 jwt:
     audience: "jwt-audience"

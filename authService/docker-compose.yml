@@ -1,7 +1,7 @@
-version: '1.0'
+version: '3.0'
 
 services:
-  issue_service_postgres:
+  auth_service_postgres:
     image: postgres:16.1
     container_name: auth_service_postgres
     restart: always
@@ -12,3 +12,20 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./data/issue_service_postgres/var/lib/postgresql/data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  auth_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - auth_service_postgres
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
